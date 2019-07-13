@@ -41,6 +41,13 @@ import static org.junit.Assert.*;
 public class XmlBeanDefinitionReaderTests {
 
 	@Test
+	public void loadBeanDefinition(){
+		ClassPathResource resource = new ClassPathResource("org/springframework/beans/factory/xml/schemaValidated.xml"); // <1>
+		DefaultListableBeanFactory factory = new DefaultListableBeanFactory(); // <2>
+		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory); // <3>
+		reader.loadBeanDefinitions(resource); // <4>
+	}
+	@Test
 	public void setParserClassSunnyDay() {
 		SimpleBeanDefinitionRegistry registry = new SimpleBeanDefinitionRegistry();
 		new XmlBeanDefinitionReader(registry).setDocumentReaderClass(DefaultBeanDefinitionDocumentReader.class);
