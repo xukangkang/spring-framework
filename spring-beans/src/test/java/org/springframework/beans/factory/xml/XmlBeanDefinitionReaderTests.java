@@ -142,6 +142,7 @@ public class XmlBeanDefinitionReaderTests {
 		Resource resource = new ClassPathResource(resourceName, getClass());
 		new XmlBeanDefinitionReader(factory).loadBeanDefinitions(resource);
 		TestBean bean = (TestBean) factory.getBean("testBean");
+		factory.getBean("testBean");
 		assertNotNull(bean);
 	}
 
