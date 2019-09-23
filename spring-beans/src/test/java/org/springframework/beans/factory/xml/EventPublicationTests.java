@@ -16,22 +16,18 @@
 
 package org.springframework.beans.factory.xml;
 
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.w3c.dom.Element;
-
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.TypedStringValue;
-import org.springframework.beans.factory.parsing.AliasDefinition;
-import org.springframework.beans.factory.parsing.BeanComponentDefinition;
-import org.springframework.beans.factory.parsing.ComponentDefinition;
-import org.springframework.beans.factory.parsing.ImportDefinition;
-import org.springframework.beans.factory.parsing.PassThroughSourceExtractor;
+import org.springframework.beans.factory.parsing.*;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.tests.beans.CollectingReaderEventListener;
+import org.springframework.tests.sample.beans.Person;
+import org.w3c.dom.Element;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -53,9 +49,15 @@ public class EventPublicationTests {
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(this.beanFactory);
 		reader.setEventListener(this.eventListener);
 		reader.setSourceExtractor(new PassThroughSourceExtractor());
-		reader.loadBeanDefinitions(new ClassPathResource("beanEvents.xml", getClass()));
+		//reader.loadBeanDefinitions(new ClassPathResource("beanEvents.xml", getClass()));
+		reader.loadBeanDefinitions(new ClassPathResource("MyBeanTest.xml", getClass()));
 	}
-
+	@Test
+	public void doTest() {
+		Person person = (Person) beanFactory.getBean("person1");
+		System.out.println(person);
+		assertNotNull(person);
+	}
 	@Test
 	public void defaultsEventReceived() throws Exception {
 		List defaultsList = this.eventListener.getDefaults();

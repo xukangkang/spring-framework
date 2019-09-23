@@ -103,10 +103,14 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	/** Map between containing bean names: bean name to Set of bean names that the bean contains. */
 	private final Map<String, Set<String>> containedBeanMap = new ConcurrentHashMap<>(16);
 
-	/** Map between dependent bean names: bean name to Set of dependent bean names. */
+	/** Map between dependent bean names: bean name to Set of dependent bean names.
+	 * 保存的是依赖 beanName 之间的映射关系：beanName（此处称为beanNameA） - > beanNameA依赖的beanName的集合
+	 */
 	private final Map<String, Set<String>> dependentBeanMap = new ConcurrentHashMap<>(64);
 
-	/** Map between depending bean names: bean name to Set of bean names for the bean's dependencies. */
+	/** Map between depending bean names: bean name to Set of bean names for the bean's dependencies.
+	 * 保存的是依赖 beanName 之间的映射关系：beanName（此处称为beanNameA） - > 依赖beanNameA的beanName的集合
+	 */
 	private final Map<String, Set<String>> dependenciesForBeanMap = new ConcurrentHashMap<>(64);
 
 
@@ -174,9 +178,12 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 */
 	@Nullable
 	protected Object getSingleton(String beanName, boolean allowEarlyReference) {
+		// 对象完全创建完成（属性填充完）之后才会放到singletonObjects中
 		Object singletonObject = this.singletonObjects.get(beanName);
+		// 如果singletonObject为空，并且正在创建中
 		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
 			synchronized (this.singletonObjects) {
+				// 如果在bean在earlySingletonObjects中存在，则说明bean的构造方法已经完成，但是对象的属性还没有初始化完成（populateBean方法还没有还没有执行完成）
 				singletonObject = this.earlySingletonObjects.get(beanName);
 				if (singletonObject == null && allowEarlyReference) {
 					ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);

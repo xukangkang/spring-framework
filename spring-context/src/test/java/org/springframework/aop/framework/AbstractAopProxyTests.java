@@ -34,6 +34,8 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import test.mixin.LockMixin;
 import test.mixin.LockMixinAdvisor;
 import test.mixin.Lockable;
@@ -103,7 +105,6 @@ public abstract class AbstractAopProxyTests {
 	public void tearDown() {
 		mockTargetSource.verify();
 	}
-
 
 	/**
 	 * Set in CGLIB or JDK mode.

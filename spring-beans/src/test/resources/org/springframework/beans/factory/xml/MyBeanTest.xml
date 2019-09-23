@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans default-lazy-init="true" default-autowire="constructor" default-merge="true"
+		default-init-method="myInit" default-destroy-method="myDestroy">
+
+
+	<bean id="person1" class="org.springframework.tests.sample.beans.Person">
+<!--		<constructor-arg type="java.lang.String" value="CR7"/>-->
+		<property name="friend">
+			<ref bean="person2"/>
+		</property>
+	</bean>
+
+	<bean id="person2" class="org.springframework.tests.sample.beans.Person">
+<!--		<constructor-arg type="java.lang.String" value="MESSI"/>-->
+		<property name="friend">
+			<ref bean="person1"/>
+		</property>
+	</bean>
+
+</beans>
